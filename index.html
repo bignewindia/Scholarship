@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GO ACADEMY Scholarship Test 2025</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; box-sizing: border-box; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #333; }
+        .container { width: 100%; max-width: 600px; background-color: #ffffff; border-radius: 15px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); padding: 30px; box-sizing: border-box; }
+
+        /* Welcome Screen Styles */
+        .welcome-screen { text-align: center; }
+        .welcome-screen img { max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .welcome-screen h1 { font-size: 2.2em; color: #004d99; margin-bottom: 20px; }
+        .welcome-screen ul { list-style: none; padding: 0; margin: 25px 0; text-align: left; max-width: 350px; margin-left: auto; margin-right: auto; }
+        .welcome-screen ul li { background-color: #e6f7ff; margin-bottom: 10px; padding: 12px 18px; border-radius: 8px; border-left: 5px solid #007bff; font-size: 1.1em; color: #0056b3; }
+        .welcome-screen button { background-color: #28a745; border: none; padding: 15px 30px; border-radius: 8px; color: white; font-size: 1.3em; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; margin-top: 25px; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4); }
+        .welcome-screen button:hover { background-color: #218838; transform: translateY(-2px); }
+
+        /* Login Screen Styles */
+        .login-screen { text-align: center; display: none; }
+        .login-screen h2 { color: #007bff; font-size: 2em; margin-bottom: 30px; }
+        input[type="text"], input[type="tel"] { width: 90%; padding: 14px; margin: 15px 0; border: 1px solid #cceeff; border-radius: 8px; font-size: 1.1em; box-shadow: inset 0 1px 3px rgba(0,0,0,0.08); }
+        .btn-login { background-color: #007bff; border: none; padding: 16px 30px; border-radius: 8px; color: white; font-size: 1.2em; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; margin-top: 20px; box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4); }
+        .btn-login:hover { background-color: #0056b3; transform: translateY(-2px); }
+
+        /* Exam Screen Styles */
+        .exam-screen, .result-screen { display: none; }
+        .timer { font-size: 2.2em; font-weight: bold; color: #dc3545; text-align: center; margin-bottom: 25px; background-color: #ffe6e6; padding: 10px; border-radius: 10px; box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2); }
+        .question-card { background-color: #f8f9fa; border-radius: 12px; padding: 25px; margin-bottom: 20px; text-align: left; box-shadow: inset 0 1px 5px rgba(0,0,0,0.1); border: 1px solid #e9ecef; }
+        .question-card p { font-size: 1.4em; font-weight: bold; color: #444; margin: 0 0 20px 0; line-height: 1.5; }
+        .options-container label { display: block; background-color: #ffffff; padding: 15px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #e0e0e0; cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 1.1em; color: #555; }
+        .options-container label:hover { background-color: #f5f5f5; border-color: #b3d9ff; }
+        input[type="radio"] { margin-right: 12px; transform: scale(1.2); } /* Larger radio buttons */
+        .options-container input[type="radio"]:checked + span { font-weight: bold; color: #007bff; } /* Highlight checked option text */
+
+        .navigation-buttons { display: flex; justify-content: space-between; gap: 15px; margin-top: 25px; }
+        .navigation-buttons button { flex: 1; padding: 14px; font-size: 1.1em; border-radius: 8px; transition: background-color 0.3s ease, transform 0.2s ease; }
+        .btn-skip { background-color: #ffc107; color: #333; border: none; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4); }
+        .btn-skip:hover { background-color: #e0a800; transform: translateY(-2px); }
+        .btn-next { background-color: #28a745; color: white; border: none; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4); }
+        .btn-next:hover { background-color: #218838; transform: translateY(-2px); }
+        .btn-submit { background-color: #dc3545; color: white; border: none; box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4); }
+        .btn-submit:hover { background-color: #c82333; transform: translateY(-2px); }
+
+        /* Result Screen Styles */
+        .result-screen h2 { color: #28a745; font-size: 2em; margin-bottom: 20px; }
+        .result-screen p { font-size: 1.1em; line-height: 1.6; }
+        .result-summary { background-color: #e6f7ff; border: 1px solid #b3d9ff; border-radius: 10px; padding: 20px; margin-top: 20px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1); }
+        .result-summary p strong { color: #0056b3; }
+        .btn-check-answers { background-color: #6c757d; border: none; padding: 14px 25px; border-radius: 8px; color: white; font-size: 1.1em; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; margin-top: 20px; box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4); }
+        .btn-check-answers:hover { background-color: #5a6268; transform: translateY(-2px); }
+
+        /* Answer Key Styles */
+        .answer-key-container { display: none; margin-top: 30px; border-radius: 12px; background-color: #fdfdfd; padding: 25px; text-align: left; border: 1px solid #eee; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .answer-key-container h3 { color: #007bff; font-size: 1.6em; margin-bottom: 20px; text-align: center; }
+        .question-key { border-bottom: 1px solid #e0e0e0; padding-bottom: 15px; margin-bottom: 15px; }
+        .question-key:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .question-key p { font-size: 1.1em; margin-bottom: 5px; }
+        .question-key p strong { color: #444; }
+        .correct-answer { color: #28a745; font-weight: bold; }
+        .user-answer { color: #007bff; font-weight: bold; }
+        .incorrect-mark { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-screen" id="welcomeScreen">
+            <img src="https://raw.githubusercontent.com/bignewindia/Scholarship/main/IMG-20250925-WA0001.jpg" alt="GO ACADEMY Scholarship Test 2025">
+            <h1>Scholarship Test 2025</h1>
+            <ul>
+                <li><strong>Questions:</strong> 20</li>
+                <li><strong>Time:</strong> 10 minutes</li>
+                <li><strong>Scholarship:</strong> Available for 16+ correct answers</li>
+                <li><strong>Negative Marking:</strong> No</li>
+            </ul>
+            <button id="startExamBtn">Start Exam Now</button>
+        </div>
+
+        <div class="login-screen" id="loginScreen">
+            <h2>Login to Start Test</h2>
+            <input type="text" id="nameInput" placeholder="Enter Your Name" required>
+            <input type="tel" id="mobileInput" placeholder="Enter Your 10-digit Mobile Number" pattern="[0-9]{10}" required>
+            <button class="btn-login" id="loginBtn">Login</button>
+        </div>
+
+        <div class="exam-screen" id="examScreen">
+            <div class="timer" id="timer">10:00</div>
+            <div class="question-card">
+                <p id="questionText"></p>
+                <div id="optionsContainer" class="options-container"></div>
+            </div>
+            <div class="navigation-buttons">
+                <button class="btn-skip" id="skipBtn">Skip</button>
+                <button class="btn-next" id="nextBtn">Next</button>
+                <button class="btn-submit" id="submitBtn" style="display: none;">Submit</button>
+            </div>
+        </div>
+
+        <div class="result-screen" id="resultScreen">
+            <h2>Exam Submitted!</h2>
+            <p>Thank you for taking the scholarship test.</p>
+            <div class="result-summary" id="resultSummary"></div>
+            <button class="btn-check-answers" id="checkAnswersBtn">Check Your Answers</button>
+            <div class="answer-key-container" id="answerKeyContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Your Getform URL has been inserted here!
+        const FORM_URL = "https://getform.io/f/bpjzrlkb";
+        
+        const questions = [
+            { q: "Which international organization was awarded the Nobel Peace Prize in 2020 for its efforts to combat global hunger?", options: ["UNICEF", "World Food Programme", "Doctors Without Borders", "Amnesty International"], answer: "World Food Programme" },
+            { q: "The 'Quadrilateral Security Dialogue' (Quad) is a strategic dialogue between which four countries?", options: ["USA, China, Russia, India", "USA, Japan, Australia, India", "USA, UK, France, Germany", "USA, Canada, Mexico, Brazil"], answer: "USA, Japan, Australia, India" },
+            { q: "Which famous landmark was originally built as a temporary structure for the 1889 World's Fair in Paris?", options: ["The Colosseum", "The Great Wall of China", "The Eiffel Tower", "The Statue of Liberty"], answer: "The Eiffel Tower" },
+            { q: "Who is the current Secretary-General of the United Nations?", options: ["Ban Ki-moon", "Kofi Annan", "António Guterres", "Boutros Boutros-Ghali"], answer: "António Guterres" },
+            { q: "Which scientific theory describes the origin and evolution of the universe from a single point?", options: ["Theory of Relativity", "Quantum Mechanics", "Big Bang Theory", "Theory of Evolution"], answer: "Big Bang Theory" },
+            { q: "What is the capital city of Canada?", options: ["Toronto", "Vancouver", "Montreal", "Ottawa"], answer: "Ottawa" },
+            { q: "Which planet is known as the 'Morning Star' or 'Evening Star'?", options: ["Mars", "Jupiter", "Venus", "Saturn"], answer: "Venus" },
+            { q: "Who wrote the classic novel '1984'?", options: ["Aldous Huxley", "George Orwell", "Ray Bradbury", "J.R.R. Tolkien"], answer: "George Orwell" },
+            { q: "What is the longest river in the world?", options: ["Amazon River", "Nile River", "Yangtze River", "Mississippi River"], answer: "Nile River" },
+            { q: "Which element has the chemical symbol 'Fe'?", options: ["Fluorine", "Iron", "Gold", "Silver"], answer: "Iron" },
+            { q: "In Greek mythology, who was the god of the sea?", options: ["Zeus", "Hades", "Poseidon", "Apollo"], answer: "Poseidon" },
+            { q: "Which country is famous for its fjords?", options: ["Sweden", "Finland", "Norway", "Denmark"], answer: "Norway" },
+            { q: "What is the process by which plants make their own food?", options: ["Respiration", "Transpiration", "Photosynthesis", "Germination"], answer: "Photosynthesis" },
+            { q: "Who was the first female Prime Minister of India?", options: ["Sonia Gandhi", "Sushma Swaraj", "Indira Gandhi", "Pratibha Patil"], answer: "Indira Gandhi" },
+            { q: "Which organ in the human body is responsible for pumping blood?", options: ["Lungs", "Liver", "Kidneys", "Heart"], answer: "Heart" },
+            { q: "The term 'Renaissance' literally means what?", options: ["Rebirth", "Revolution", "Reform", "Retreat"], answer: "Rebirth" },
+            { q: "Which desert is the largest hot desert in the world?", options: ["Gobi Desert", "Kalahari Desert", "Sahara Desert", "Arabian Desert"], answer: "Sahara Desert" },
+            { q: "Who formulated the theory of general relativity?", options: ["Isaac Newton", "Niels Bohr", "Albert Einstein", "Stephen Hawking"], answer: "Albert Einstein" },
+            { q: "Which is the smallest country in the world by land area?", options: ["Monaco", "Nauru", "Vatican City", "San Marino"], answer: "Vatican City" },
+            { q: "What is the primary gas found in the Earth's atmosphere?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Argon"], answer: "Nitrogen" }
+        ];
+
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const startExamBtn = document.getElementById('startExamBtn');
+        const loginScreen = document.getElementById('loginScreen');
+        const examScreen = document.getElementById('examScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const loginBtn = document.getElementById('loginBtn');
+        const nameInput = document.getElementById('nameInput');
+        const mobileInput = document.getElementById('mobileInput');
+        const timerDisplay = document.getElementById('timer');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const nextBtn = document.getElementById('nextBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultSummary = document.getElementById('resultSummary');
+        const checkAnswersBtn = document.getElementById('checkAnswersBtn');
+        const answerKeyContainer = document.getElementById('answerKeyContainer');
+
+        let userName, userMobile, timeLeft = 600; // 10 minutes for 20 questions
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let timerInterval;
+
+        // Event listener for "Start Exam Now" button
+        startExamBtn.addEventListener('click', () => {
+            welcomeScreen.style.display = 'none';
+            loginScreen.style.display = 'block';
+        });
+
+        loginBtn.addEventListener('click', () => {
+            if (nameInput.value.trim() && mobileInput.value.length === 10 && /^\d{10}$/.test(mobileInput.value)) {
+                userName = nameInput.value.trim();
+                userMobile = mobileInput.value;
+                loginScreen.style.display = 'none';
+                examScreen.style.display = 'block';
+                startTimer();
+                showQuestion();
+            } else {
+                alert('Please enter your Name and a valid 10-digit Mobile Number.');
+            }
+        });
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Time is up! Your exam will be submitted automatically.');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function showQuestion() {
+            const questionData = questions[currentQuestionIndex];
+            questionText.textContent = `${currentQuestionIndex + 1}. ${questionData.q}`;
+            optionsContainer.innerHTML = '';
+            questionData.options.forEach(option => {
+                const label = document.createElement('label');
+                const radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.name = `q${currentQuestionIndex}`;
+                radioInput.value = option;
+                radioInput.id = `q${currentQuestionIndex}-${option.replace(/\s+/g, '')}`;
+                radioInput.checked = userAnswers[currentQuestionIndex] === option;
+                
+                label.appendChild(radioInput);
+                const span = document.createElement('span');
+                span.textContent = option;
+                label.appendChild(span);
+                optionsContainer.appendChild(label);
+            });
+            
+            optionsContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    userAnswers[currentQuestionIndex] = e.target.value;
+                });
+            });
+
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.style.display = 'none';
+                skipBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                skipBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            }
+        });
+        
+        skipBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length - 1) {
+                userAnswers[currentQuestionIndex] = null; // Mark as skipped
+                currentQuestionIndex++;
+                showQuestion();
+            }
+        });
+
+        submitBtn.addEventListener('click', submitExam);
+
+        function submitExam() {
+            clearInterval(timerInterval);
+            let correct = 0, incorrect = 0, notAttempted = 0;
+            const answersKey = questions.map(q => q.answer);
+            
+            userAnswers.forEach((userAnswer, index) => {
+                if (userAnswer === null) {
+                    notAttempted++;
+                } else if (userAnswer === answersKey[index]) {
+                    correct++;
+                } else {
+                    incorrect++;
+                }
+            });
+            
+            const totalScore = correct;
+
+            examScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+            resultSummary.innerHTML = `
+                <p><strong>Name:</strong> ${userName}</p>
+                <p><strong>Mobile:</strong> ${userMobile}</p>
+                <p><strong>Total Score:</strong> ${totalScore} / ${questions.length}</p>
+                <p><strong>Correct Answers:</strong> ${correct}</p>
+                <p><strong>Incorrect Answers:</strong> ${incorrect}</p>
+                <p><strong>Not Attempted:</strong> ${notAttempted}</p>
+                ${totalScore >= 16 ? '<p style="color: #28a745; font-weight: bold; font-size: 1.2em;">Congratulations! You are eligible for scholarship!</p>' : '<p style="color: #dc3545; font-weight: bold; font-size: 1.2em;">Keep practicing for scholarship eligibility!</p>'}
+            `;
+            
+            // Prepare data to be sent to Getform
+            const formData = new URLSearchParams();
+            formData.append('Name', userName);
+            formData.append('Mobile', userMobile);
+            formData.append('Score', `${totalScore}/${questions.length}`); // Sending score in X/Y format
+            formData.append('Correct', correct);
+            formData.append('Incorrect', incorrect);
+            formData.append('NotAttempted', notAttempted);
+            formData.append('Timestamp', new Date().toLocaleString()); // Adding timestamp
+
+            fetch(FORM_URL, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                  'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // alert('Test submitted successfully! Your data has been saved.');
+                } else {
+                    console.error('Form submission failed:', response.statusText);
+                    // alert('An error occurred while submitting data. Please try again.');
+                }
+            }).catch(error => {
+                console.error('Error submitting data:', error);
+                // alert('An error occurred while submitting the test.');
+            });
+        }
+
+        checkAnswersBtn.addEventListener('click', () => {
+            answerKeyContainer.style.display = 'block';
+            answerKeyContainer.innerHTML = '<h3>Answer Key and Your Performance</h3>';
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question-key');
+                const userAnswer = userAnswers[index];
+                const correctAnswer = q.answer;
+
+                let answerStatus = '';
+                if (userAnswer === null) {
+                    answerStatus = '<p><span class="incorrect-mark">Not Attempted</span></p>';
+                } else if (userAnswer === correctAnswer) {
+                    answerStatus = `<p>Your Answer: <span class="user-answer">${userAnswer}</span></p><p><span class="correct-answer">Correct!</span></p>`;
+                } else {
+                    answerStatus = `<p>Your Answer: <span class="incorrect-mark">${userAnswer}</span></p><p><span class="incorrect-mark">Incorrect!</span></p>`;
+                }
+
+                questionDiv.innerHTML = `
+                    <p><strong>Q${index + 1}:</strong> ${q.q}</p>
+                    ${answerStatus}
+                    <p>Correct Answer: <span class="correct-answer">${correctAnswer}</span></p>
+                `;
+                answerKeyContainer.appendChild(questionDiv);
+            });
+        });
+    </script>
+</body>
+</html>
